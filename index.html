@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Online Marketing System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Online Marketing System</h1>
+
+  <div class="nav">
+    <button onclick="showPanel('adminLogin')">Admin Panel</button>
+    <button onclick="showPanel('customerPanel')">Customer Panel</button>
+  </div>
+
+  <!-- Admin Login -->
+  <div id="adminLogin" class="panel fade">
+    <h2>Admin Login</h2>
+    <input id="adminUser" placeholder="Username">
+    <input id="adminPass" type="password" placeholder="Password">
+    <button onclick="adminLogin()">Login</button>
+    <p class="hint">Default admin: admin / 1234</p>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div id="adminDashboard" class="panel fade">
+    <h2>Admin Dashboard</h2>
+    <button onclick="showPanel('adminLogin')">Logout</button>
+
+    <h3>Add Product</h3>
+    <input id="pname" placeholder="Product Name">
+    <input id="pprice" type="number" placeholder="Price">
+    <textarea id="pdesc" placeholder="Product Description"></textarea>
+    <input type="file" id="pfile" accept="image/*">
+    <button onclick="addProduct()">Add Product</button>
+
+    <h3>Products</h3>
+    <div id="productTable" class="product-grid"></div>
+
+    <h3>Customers</h3>
+    <div id="customerTable"></div>
+
+    <h3>Orders</h3>
+    <div id="orderTable"></div>
+  </div>
+
+  <!-- Customer Panel -->
+  <div id="customerPanel" class="panel fade">
+    <h2>Customer Panel</h2>
+
+    <h3>Register</h3>
+    <input id="regName" placeholder="Name">
+    <input id="regEmail" placeholder="Email">
+    <input id="regPass" type="password" placeholder="Password">
+    <button onclick="registerCustomer()">Register</button>
+
+    <h3>Login</h3>
+    <input id="logEmail" placeholder="Email">
+    <input id="logPass" type="password" placeholder="Password">
+    <button onclick="customerLogin()">Login</button>
+  </div>
+
+  <!-- Customer Dashboard -->
+  <div id="customerDashboard" class="panel fade">
+    <h2>Customer Dashboard</h2>
+    <button onclick="logoutCustomer()">Logout</button>
+
+    <h3>Products</h3>
+    <div id="customerProducts" class="product-grid"></div>
+
+    <h3>Your Cart</h3>
+    <div id="cartItems"></div>
+    <button onclick="checkout()">Checkout (Dummy Payment)</button>
+
+    <h3>Your Orders</h3>
+    <div id="myOrders"></div>
+  </div>
+
+</div>
+
+<!-- Product Edit Modal -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3>Edit Product</h3>
+
+    <label for="editName">Product Name</label>
+    <input id="editName" placeholder="Name">
+
+    <label for="editPrice">Price</label>
+    <input id="editPrice" type="number" placeholder="Price">
+
+    <label for="editDesc">Description</label>
+    <textarea id="editDesc" placeholder="Description"></textarea>
+
+    <label for="editFile">Image</label>
+    <input type="file" id="editFile" accept="image/*">
+
+    <img id="editPreview" src="" alt="Preview" style="max-width:100%; margin:10px 0;">
+
+    <button onclick="saveEdit()">Save</button>
+  </div>
+</div>
+
+
+<!-- Customer Edit Modal -->
+<div id="editCustomerModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeCustomerModal()">&times;</span>
+    <h3>Edit Customer</h3>
+
+    <label for="editCustomerName">Name</label>
+    <input id="editCustomerName" placeholder="Name">
+
+    <label for="editCustomerEmail">Email</label>
+    <input id="editCustomerEmail" placeholder="Email">
+
+    <button onclick="saveCustomerEdit()">Save</button>
+  </div>
+</div>
+
+
+<!-- Order Edit Modal -->
+<div id="editOrderModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeOrderModal()">&times;</span>
+    <h3>Edit Order</h3>
+
+    <label for="editOrderCustomer">Customer Email</label>
+    <input id="editOrderCustomer" placeholder="Customer Email">
+
+    <label for="editOrderTotal">Total Amount</label>
+    <input id="editOrderTotal" type="number" placeholder="Total">
+
+    <button onclick="saveOrderEdit()">Save</button>
+  </div>
+</div>
+
+
+
+<script src="js/app.js"></script>
+</body>
+</html>
