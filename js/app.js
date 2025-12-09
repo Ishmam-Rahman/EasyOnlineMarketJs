@@ -362,10 +362,12 @@ function renderMyOrders(){
         let div = document.createElement('div');
         div.className='list-item';
         div.innerHTML = `Order #${o.id} - Total: $${o.total} 
-                         <button onclick="viewOrderDetail(${i})">View Details</button>`;
+                         <button onclick="viewOrderDetail(${i})">View Details</button>
+                         <button onclick="downloadInvoice(${i})">Download Invoice</button>`;
         container.appendChild(div);
     });
 }
+
 
 
 
@@ -423,5 +425,49 @@ function logoutAdmin(){
     showPanel('adminLogin'); // go back to admin login
     document.getElementById('panelButtons').style.display = 'flex'; // show panel buttons again
 }
+
+function downloadInvoice(index){
+    let o = orders.filter(o => o.customer === loggedCustomer.email)[index];
+    if(!o) return;
+
+    const { jsPDF } = window.jspdf;
+    let doc = new jsPDF();
+
+    let y = 10;
+    doc.setFontSize(16);
+    doc.text("Invoice", 105, y, null, null, "center");
+
+    y += 10;
+    doc.setFontSize(12);
+    doc.text(`Order ID: ${o.id}`, 10, y);
+    y += 6;
+    doc.text(`Customer Name: ${o.customerName}`, 10, y);
+    y += 6;
+    doc.text(`Email: ${o.customer}`, 10, y);
+    y += 6;
+    doc.text(`Mobile: ${o.mobile}`, 10, y);
+    y += 6;
+    doc.text(`Address: ${o.address}`, 10, y);
+    y += 6;
+    doc.text(`Payment Method: ${o.method.toUpperCase()}`, 10, y);
+    if(o.paymentDetails){
+        y += 6;
+        doc.text(`Payment Details: ${o.paymentDetails}`, 10, y);
+    }
+
+    y += 10;
+    doc.text("Items:", 10, y);
+    y += 6;
+    o.items.forEach(item => {
+        doc.text(`- ${item.name} - $${item.price}`, 12, y);
+        y += 6;
+    });
+
+    y += 4;
+    doc.text(`Total: $${o.total}`, 10, y);
+
+    doc.save(`Invoice_${o.id}.pdf`);
+}
+
 
 
