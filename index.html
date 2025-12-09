@@ -73,7 +73,7 @@
 
     <h3>Your Cart</h3>
     <div id="cartItems"></div>
-    <button onclick="checkout()">Checkout (Dummy Payment)</button>
+    <button onclick="checkout()">Checkout</button>
 
     <h3>Your Orders</h3>
     <div id="myOrders"></div>
@@ -138,6 +138,30 @@
     <button onclick="saveOrderEdit()">Save</button>
   </div>
 </div>
+
+
+<!-- Payment Modal -->
+<div id="paymentModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closePaymentModal()">&times;</span>
+    <h3>Checkout</h3>
+
+    <div id="paymentSummary" style="margin-bottom: 15px;"></div>
+
+    <label for="paymentMethod">Payment Method</label>
+    <select id="paymentMethod">
+      <option value="card">Credit Card</option>
+      <option value="mobile">Mobile Payment</option>
+      <option value="cash">Cash on Delivery</option>
+    </select>
+
+    <label for="paymentDetails">Payment Details</label>
+    <input id="paymentDetails" placeholder="Card Number / Mobile Number">
+
+    <button onclick="processPayment()">Pay</button>
+  </div>
+</div>
+
 
 
 

@@ -264,11 +264,47 @@ function renderCart(){
 function removeFromCart(index){cart.splice(index,1);renderCart();}
 
 function checkout(){
-    if(cart.length===0)return alert("Cart empty");
-    let total=cart.reduce((a,b)=>a+b.price,0);
-    orders.push({id:Date.now(),customer:loggedCustomer.email,total});
-    cart=[]; renderCart(); renderMyOrders(); alert("Payment successful!");
+    if(cart.length === 0) return alert("Cart is empty");
+
+    // Populate order summary
+    let total = cart.reduce((sum,p)=>sum+p.price,0);
+    let summaryDiv = document.getElementById('paymentSummary');
+    summaryDiv.innerHTML = "<b>Order Summary:</b><br>" +
+        cart.map(p=>`${p.name} - $${p.price}`).join("<br>") +
+        `<br><br><b>Total: $${total.toFixed(2)}</b>`;
+
+    document.getElementById('paymentDetails').value = '';
+    document.getElementById('paymentModal').style.display = 'block';
 }
+
+function closePaymentModal(){
+    document.getElementById('paymentModal').style.display='none';
+}
+
+function processPayment(){
+    let method = document.getElementById('paymentMethod').value;
+    let details = document.getElementById('paymentDetails').value.trim();
+    if(!details) return alert("Enter payment details");
+
+    let total = cart.reduce((sum,p)=>sum+p.price,0);
+
+    // Save order
+    orders.push({
+        id: Date.now(),
+        customer: loggedCustomer.email,
+        total: total.toFixed(2),
+        method: method,
+        items: [...cart]
+    });
+
+    cart = [];
+    renderCart();
+    renderMyOrders();
+    closePaymentModal();
+
+    alert(`Payment successful via ${method.toUpperCase()}!`);
+}
+
 
 function renderMyOrders(){
     let container=document.getElementById('myOrders');
