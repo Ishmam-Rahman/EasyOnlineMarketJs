@@ -167,19 +167,21 @@ function deleteCustomer(index){
 let editOrderIndex = null;
 
 function renderAdminOrders(){
-    let container=document.getElementById('orderTable');
+    let container = document.getElementById('orderTable');
     container.innerHTML='';
     orders.forEach((o,index)=>{
         let div=document.createElement('div');
         div.className='list-item';
-        div.innerHTML=`<span>Order #${o.id} - ${o.customer} - Total: ${o.total}</span>
+        div.innerHTML=`<span>Order #${o.id} - ${o.customer} - Total: $${o.total}</span>
             <div>
+                <button onclick="viewAdminOrderDetail(${index})">View Details</button>
                 <button onclick="editOrder(${index})">Edit</button>
                 <button onclick="deleteOrder(${index})">Delete</button>
             </div>`;
         container.appendChild(div);
     });
 }
+
 
 function editOrder(index){
     editOrderIndex = index;
@@ -307,15 +309,55 @@ function processPayment(){
 
 
 function renderMyOrders(){
-    let container=document.getElementById('myOrders');
-    container.innerHTML='';
-    orders.filter(o=>o.customer===loggedCustomer.email).forEach(o=>{
-        let div=document.createElement('div');
+    let container = document.getElementById('myOrders');
+    container.innerHTML = '';
+    orders.filter(o => o.customer === loggedCustomer.email).forEach((o,i)=>{
+        let div = document.createElement('div');
         div.className='list-item';
-        div.innerHTML=`Order #${o.id} - Total: ${o.total}`;
+        div.innerHTML = `Order #${o.id} - Total: $${o.total} 
+                         <button onclick="viewOrderDetail(${i})">View Details</button>`;
         container.appendChild(div);
     });
 }
+
+
+
+function viewOrderDetail(index){
+    let o = orders.filter(o => o.customer === loggedCustomer.email)[index];
+    let content = `<b>Order ID:</b> ${o.id}<br>
+                   <b>Payment Method:</b> ${o.method.toUpperCase()}<br>
+                   <b>Total:</b> $${o.total}<br>
+                   <b>Items:</b><br>`;
+    o.items.forEach(i => {
+        content += `- ${i.name} - $${i.price}<br>`;
+    });
+    document.getElementById('orderDetailContent').innerHTML = content;
+    document.getElementById('orderDetailModal').style.display = 'block';
+}
+
+function closeOrderDetailModal(){
+    document.getElementById('orderDetailModal').style.display = 'none';
+}
+
+function viewAdminOrderDetail(index){
+    let o = orders[index];
+    let content = `<b>Order ID:</b> ${o.id}<br>
+                   <b>Customer:</b> ${o.customer}<br>
+                   <b>Payment Method:</b> ${o.method.toUpperCase()}<br>
+                   <b>Total:</b> $${o.total}<br>
+                   <b>Items:</b><br>`;
+    o.items.forEach(i => {
+        content += `- ${i.name} - $${i.price}<br>`;
+    });
+    document.getElementById('adminOrderDetailContent').innerHTML = content;
+    document.getElementById('adminOrderDetailModal').style.display = 'block';
+}
+
+function closeAdminOrderDetailModal(){
+    document.getElementById('adminOrderDetailModal').style.display = 'none';
+}
+
+
 
 function logoutCustomer(){
     loggedCustomer=null; cart=[]; showPanel('customerPanel');
