@@ -286,26 +286,36 @@ function closePaymentModal(){
 function processPayment(){
     let method = document.getElementById('paymentMethod').value;
     let details = document.getElementById('paymentDetails').value.trim();
-    if(!details) return alert("Enter payment details");
+    let mobile = document.getElementById('customerMobile').value.trim();
+    let address = document.getElementById('customerAddress').value.trim();
+
+    if(!mobile) return alert("Mobile number is mandatory!");
+    if(!address) return alert("Address is mandatory!");
+    if(method !== "cash" && !details) return alert("Payment details are mandatory!");
 
     let total = cart.reduce((sum,p)=>sum+p.price,0);
 
-    // Save order
+    // Save order with new info
     orders.push({
         id: Date.now(),
         customer: loggedCustomer.email,
         total: total.toFixed(2),
         method: method,
+        paymentDetails: details || "", // empty for cash
+        mobile: mobile,
+        address: address,
         items: [...cart]
     });
 
     cart = [];
     renderCart();
     renderMyOrders();
+    renderAdminOrders();
     closePaymentModal();
 
     alert(`Payment successful via ${method.toUpperCase()}!`);
 }
+
 
 
 function renderMyOrders(){
@@ -326,14 +336,15 @@ function viewOrderDetail(index){
     let o = orders.filter(o => o.customer === loggedCustomer.email)[index];
     let content = `<b>Order ID:</b> ${o.id}<br>
                    <b>Payment Method:</b> ${o.method.toUpperCase()}<br>
-                   <b>Total:</b> $${o.total}<br>
-                   <b>Items:</b><br>`;
-    o.items.forEach(i => {
-        content += `- ${i.name} - $${i.price}<br>`;
-    });
+                   <b>Mobile:</b> ${o.mobile}<br>
+                   <b>Address:</b> ${o.address}<br>`;
+    if(o.paymentDetails) content += `<b>Payment Details:</b> ${o.paymentDetails}<br>`;
+    content += `<b>Total:</b> $${o.total}<br><b>Items:</b><br>`;
+    o.items.forEach(i => content += `- ${i.name} - $${i.price}<br>`);
     document.getElementById('orderDetailContent').innerHTML = content;
     document.getElementById('orderDetailModal').style.display = 'block';
 }
+
 
 function closeOrderDetailModal(){
     document.getElementById('orderDetailModal').style.display = 'none';
@@ -344,14 +355,15 @@ function viewAdminOrderDetail(index){
     let content = `<b>Order ID:</b> ${o.id}<br>
                    <b>Customer:</b> ${o.customer}<br>
                    <b>Payment Method:</b> ${o.method.toUpperCase()}<br>
-                   <b>Total:</b> $${o.total}<br>
-                   <b>Items:</b><br>`;
-    o.items.forEach(i => {
-        content += `- ${i.name} - $${i.price}<br>`;
-    });
+                   <b>Mobile:</b> ${o.mobile}<br>
+                   <b>Address:</b> ${o.address}<br>`;
+    if(o.paymentDetails) content += `<b>Payment Details:</b> ${o.paymentDetails}<br>`;
+    content += `<b>Total:</b> $${o.total}<br><b>Items:</b><br>`;
+    o.items.forEach(i => content += `- ${i.name} - $${i.price}<br>`);
     document.getElementById('adminOrderDetailContent').innerHTML = content;
     document.getElementById('adminOrderDetailModal').style.display = 'block';
 }
+
 
 function closeAdminOrderDetailModal(){
     document.getElementById('adminOrderDetailModal').style.display = 'none';
