@@ -20,12 +20,15 @@ function showPanel(id){
 function adminLogin(){
     if(document.getElementById('adminUser').value==='admin' &&
         document.getElementById('adminPass').value==='1234'){
+        // Hide panel buttons
+        document.getElementById('panelButtons').style.display = 'none';
         showPanel('adminDashboard');
         renderAdminProducts();
         renderAdminCustomers();
         renderAdminOrders();
     } else alert("Invalid credentials");
 }
+
 
 // -------- PRODUCTS --------
 function addProduct(){
@@ -226,12 +229,17 @@ function customerLogin(){
     let pass=document.getElementById('logPass').value;
     loggedCustomer=customers.find(c=>c.email===email&&c.pass===pass);
     if(!loggedCustomer)return alert("Invalid login");
+
+    // Hide panel buttons
+    document.getElementById('panelButtons').style.display = 'none';
+
     cart=[];
     showPanel('customerDashboard');
     renderCustomerProducts();
     renderCart();
     renderMyOrders();
 }
+
 
 // -------- CUSTOMER PRODUCTS --------
 function renderCustomerProducts(){
@@ -400,5 +408,17 @@ function closeAdminOrderDetailModal(){
 
 
 function logoutCustomer(){
-    loggedCustomer=null; cart=[]; showPanel('customerPanel');
+    loggedCustomer=null;
+    cart=[];
+    showPanel('customerPanel');
+
+    // Show panel buttons again
+    document.getElementById('panelButtons').style.display = 'flex';
 }
+
+function logoutAdmin(){
+    showPanel('adminLogin'); // go back to admin login
+    document.getElementById('panelButtons').style.display = 'flex'; // show panel buttons again
+}
+
+

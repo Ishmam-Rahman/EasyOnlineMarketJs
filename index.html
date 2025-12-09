@@ -11,10 +11,11 @@
 
   <h1>Online Marketing System</h1>
 
-  <div class="nav">
+  <div class="nav" id="panelButtons">
     <button onclick="showPanel('adminLogin')">Admin Panel</button>
     <button onclick="showPanel('customerPanel')">Customer Panel</button>
   </div>
+
 
   <!-- Admin Login -->
   <div id="adminLogin" class="panel fade">
@@ -28,9 +29,9 @@
   <!-- Admin Dashboard -->
   <div id="adminDashboard" class="panel fade">
     <h2>Admin Dashboard</h2>
-    <button onclick="showPanel('adminLogin')">Logout</button>
+    <button onclick="logoutAdmin()">Logout</button>
 
-    <h3>Add Product</h3>
+  <h3>Add Product</h3>
     <input id="pname" placeholder="Product Name">
     <input id="pprice" type="number" placeholder="Price">
     <textarea id="pdesc" placeholder="Product Description"></textarea>
