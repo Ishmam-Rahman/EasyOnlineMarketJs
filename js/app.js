@@ -321,6 +321,7 @@ function processPayment(){
     let total = cart.reduce((sum,p)=>sum+p.price,0);
 
     orders.push({
+        customerName: loggedCustomer.name,
         id: Date.now(),
         customer: loggedCustomer.email,
         total: total.toFixed(2),
@@ -370,7 +371,8 @@ function renderMyOrders(){
 
 function viewOrderDetail(index){
     let o = orders.filter(o => o.customer === loggedCustomer.email)[index];
-    let content = `<b>Order ID:</b> ${o.id}<br>
+    let content = `<b>Customer:</b> ${o.customerName}<br>
+                   <b>Order ID:</b> ${o.id}<br>
                    <b>Payment Method:</b> ${o.method.toUpperCase()}<br>
                    <b>Mobile:</b> ${o.mobile}<br>
                    <b>Address:</b> ${o.address}<br>`;
@@ -388,7 +390,8 @@ function closeOrderDetailModal(){
 
 function viewAdminOrderDetail(index){
     let o = orders[index];
-    let content = `<b>Order ID:</b> ${o.id}<br>
+    let content = `<b>Customer:</b> ${o.customerName}<br>
+                    <b>Order ID:</b> ${o.id}<br>
                    <b>Customer:</b> ${o.customer}<br>
                    <b>Payment Method:</b> ${o.method.toUpperCase()}<br>
                    <b>Mobile:</b> ${o.mobile}<br>
