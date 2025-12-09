@@ -253,15 +253,32 @@ function addToCart(pid){
 }
 
 function renderCart(){
-    let container=document.getElementById('cartItems');
-    container.innerHTML='';
-    cart.forEach((c,i)=>{
-        let div=document.createElement('div');
-        div.className='list-item';
-        div.innerHTML=`<span>${c.name} - ${c.price}</span><button onclick="removeFromCart(${i})">Remove</button>`;
-        container.appendChild(div);
-    });
+    let container = document.getElementById('cartItems');
+    container.innerHTML = '';
+
+    if(cart.length === 0){
+        container.innerHTML = '<p>Your cart is empty</p>';
+    } else {
+        cart.forEach((p,i)=>{
+            let div = document.createElement('div');
+            div.className='list-item';
+            div.innerHTML = `${p.name} - $${p.price} 
+                             <button onclick="removeFromCart(${i})">Remove</button>`;
+            container.appendChild(div);
+        });
+    }
+
+    // Enable or disable checkout button
+    let checkoutBtn = document.getElementById('checkoutBtn');
+    if(cart.length > 0){
+        checkoutBtn.disabled = false;
+        checkoutBtn.style.display = 'block';
+    } else {
+        checkoutBtn.disabled = true;
+        checkoutBtn.style.display = 'none'; // optional: hide button
+    }
 }
+
 
 function removeFromCart(index){cart.splice(index,1);renderCart();}
 
@@ -295,13 +312,12 @@ function processPayment(){
 
     let total = cart.reduce((sum,p)=>sum+p.price,0);
 
-    // Save order with new info
     orders.push({
         id: Date.now(),
         customer: loggedCustomer.email,
         total: total.toFixed(2),
         method: method,
-        paymentDetails: details || "", // empty for cash
+        paymentDetails: details || "",
         mobile: mobile,
         address: address,
         items: [...cart]
@@ -313,7 +329,19 @@ function processPayment(){
     renderAdminOrders();
     closePaymentModal();
 
-    alert(`Payment successful via ${method.toUpperCase()}!`);
+    // Show success notification
+    showToast(`Payment successful via ${method.toUpperCase()}!`);
+}
+
+function showToast(message){
+    let toast = document.getElementById('toast');
+    if(!toast) return; // safety check
+    toast.innerText = message;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
 }
 
 

@@ -71,9 +71,11 @@
     <h3>Products</h3>
     <div id="customerProducts" class="product-grid"></div>
 
-    <h3>Your Cart</h3>
-    <div id="cartItems"></div>
-    <button onclick="checkout()">Checkout</button>
+    <div id="cartContainer">
+      <h4>Cart</h4>
+      <div id="cartItems"></div>
+      <button id="checkoutBtn" onclick="checkout()">Checkout</button>
+    </div>
 
     <h3>Your Orders</h3>
     <div id="myOrders"></div>
@@ -187,7 +189,8 @@
 </div>
 
 
-
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
 <script src="js/app.js"></script>
 </body>
 </html>
