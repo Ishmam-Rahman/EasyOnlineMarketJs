@@ -2,197 +2,237 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Amar Market</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyOnlineMarket - Your Digital Marketplace</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-<div class="container">
+  <header class="main-header">
+    <div class="header-content container">
+      <div class="logo">
+        <i class="fas fa-store"></i> EasyOnlineMarket
+      </div>
+      <nav class="main-nav">
+        <button onclick="showPanel('adminLogin')">Admin</button>
+        <button onclick="showPanel('customerPanel')">Customer</button>
+      </nav>
+    </div>
+  </header>
 
-  <h1>Amar Market</h1>
+  <main>
+    <section id="hero" class="hero-section">
+      <div class="container">
+        <h1>Welcome to EasyOnlineMarket</h1>
+        <p>Your one-stop solution for seamless online shopping and efficient store management.</p>
+        <div class="hero-buttons">
+          <button onclick="showPanel('customerPanel')">Shop Now</button>
+          <button onclick="showPanel('adminLogin')">Manage Your Store</button>
+        </div>
+      </div>
+    </section>
 
-  <div class="nav" id="panelButtons">
-    <button onclick="showPanel('adminLogin')">Admin Panel</button>
-    <button onclick="showPanel('customerPanel')">Customer Panel</button>
-  </div>
+    <div class="container">
+      <!-- Admin Login -->
+      <div id="adminLogin" class="panel fade">
+        <h2>Admin Login</h2>
+        <input id="adminUser" placeholder="Username">
+        <input id="adminPass" type="password" placeholder="Password">
+        <button onclick="adminLogin()">Login</button>
+        <p class="hint">Default admin: admin / 1234</p>
+      </div>
 
+      <!-- Admin Dashboard -->
+      <div id="adminDashboard" class="panel fade">
+        <div class="admin-header">
+          <h2>Admin Dashboard</h2>
+          <button onclick="logoutAdmin()">Logout</button>
+        </div>
+        <div class="admin-layout">
+          <aside class="admin-sidebar">
+            <nav>
+              <a href="#" onclick="showAdminSection('dashboardHome')"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+              <a href="#" onclick="showAdminSection('addProductSection')"><i class="fas fa-plus-circle"></i> Add Product</a>
+              <a href="#" onclick="showAdminSection('productsSection')"><i class="fas fa-box-open"></i> Products</a>
+              <a href="#" onclick="showAdminSection('customersSection')"><i class="fas fa-users"></i> Customers</a>
+              <a href="#" onclick="showAdminSection('ordersSection')"><i class="fas fa-shopping-cart"></i> Orders</a>
+            </nav>
+          </aside>
+          <main class="admin-content">
+            <section id="dashboardHome" class="admin-section">
+              <h3>Welcome, Admin!</h3>
+              <p>Select an option from the sidebar to get started.</p>
+            </section>
+            <section id="addProductSection" class="admin-section" style="display:none;">
+              <h3>Add Product</h3>
+              <input id="pname" placeholder="Product Name">
+              <input id="pprice" type="number" placeholder="Price">
+              <textarea id="pdesc" placeholder="Product Description"></textarea>
+              <input type="file" id="pfile" accept="image/*">
+              <button onclick="addProduct()">Add Product</button>
+            </section>
+            <section id="productsSection" class="admin-section" style="display:none;">
+              <h3>Products</h3>
+              <div id="productTable" class="product-grid"></div>
+            </section>
+            <section id="customersSection" class="admin-section" style="display:none;">
+              <h3>Customers</h3>
+              <div id="customerTable"></div>
+            </section>
+            <section id="ordersSection" class="admin-section" style="display:none;">
+              <h3>Orders</h3>
+              <div id="orderTable"></div>
+            </section>
+          </main>
+        </div>
+      </div>
 
-  <!-- Admin Login -->
-  <div id="adminLogin" class="panel fade">
-    <h2>Admin Login</h2>
-    <input id="adminUser" placeholder="Username">
-    <input id="adminPass" type="password" placeholder="Password">
-    <button onclick="adminLogin()">Login</button>
-    <p class="hint">Default admin: admin / 1234</p>
-  </div>
+      <!-- Customer Panel -->
+      <div id="customerPanel" class="panel fade">
+        <h2>Customer Panel</h2>
 
-  <!-- Admin Dashboard -->
-  <div id="adminDashboard" class="panel fade">
-    <h2>Admin Dashboard</h2>
-    <button onclick="logoutAdmin()">Logout</button>
+        <h3>Register</h3>
+        <input id="regName" placeholder="Name">
+        <input id="regEmail" placeholder="Email">
+        <input id="regPass" type="password" placeholder="Password">
+        <button onclick="registerCustomer()">Register</button>
 
-  <h3>Add Product</h3>
-    <input id="pname" placeholder="Product Name">
-    <input id="pprice" type="number" placeholder="Price">
-    <textarea id="pdesc" placeholder="Product Description"></textarea>
-    <input type="file" id="pfile" accept="image/*">
-    <button onclick="addProduct()">Add Product</button>
+        <h3>Login</h3>
+        <input id="logEmail" placeholder="Email">
+        <input id="logPass" type="password" placeholder="Password">
+        <button onclick="customerLogin()">Login</button>
+      </div>
 
-    <h3>Products</h3>
-    <div id="productTable" class="product-grid"></div>
+      <!-- Customer Dashboard -->
+      <div id="customerDashboard" class="panel fade">
+        <h2>Customer Dashboard</h2>
+        <button onclick="logoutCustomer()">Logout</button>
 
-    <h3>Customers</h3>
-    <div id="customerTable"></div>
+        <h3>Products</h3>
+        <div id="customerProducts" class="product-grid"></div>
 
-    <h3>Orders</h3>
-    <div id="orderTable"></div>
-  </div>
+        <div id="cartContainer">
+          <h4>Cart</h4>
+          <div id="cartItems"></div>
+          <button id="checkoutBtn" onclick="checkout()">Checkout</button>
+        </div>
 
-  <!-- Customer Panel -->
-  <div id="customerPanel" class="panel fade">
-    <h2>Customer Panel</h2>
-
-    <h3>Register</h3>
-    <input id="regName" placeholder="Name">
-    <input id="regEmail" placeholder="Email">
-    <input id="regPass" type="password" placeholder="Password">
-    <button onclick="registerCustomer()">Register</button>
-
-    <h3>Login</h3>
-    <input id="logEmail" placeholder="Email">
-    <input id="logPass" type="password" placeholder="Password">
-    <button onclick="customerLogin()">Login</button>
-  </div>
-
-  <!-- Customer Dashboard -->
-  <div id="customerDashboard" class="panel fade">
-    <h2>Customer Dashboard</h2>
-    <button onclick="logoutCustomer()">Logout</button>
-
-    <h3>Products</h3>
-    <div id="customerProducts" class="product-grid"></div>
-
-    <div id="cartContainer">
-      <h4>Cart</h4>
-      <div id="cartItems"></div>
-      <button id="checkoutBtn" onclick="checkout()">Checkout</button>
+        <h3>Your Orders</h3>
+        <div id="myOrders"></div>
+      </div>
     </div>
 
-    <h3>Your Orders</h3>
-    <div id="myOrders"></div>
-  </div>
+    <!-- Product Edit Modal -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Edit Product</h3>
 
-</div>
+        <label for="editName">Product Name</label>
+        <input id="editName" placeholder="Name">
 
-<!-- Product Edit Modal -->
-<div id="editModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <h3>Edit Product</h3>
+        <label for="editPrice">Price</label>
+        <input id="editPrice" type="number" placeholder="Price">
 
-    <label for="editName">Product Name</label>
-    <input id="editName" placeholder="Name">
+        <label for="editDesc">Description</label>
+        <textarea id="editDesc" placeholder="Description"></textarea>
 
-    <label for="editPrice">Price</label>
-    <input id="editPrice" type="number" placeholder="Price">
+        <label for="editFile">Image</label>
+        <input type="file" id="editFile" accept="image/*">
 
-    <label for="editDesc">Description</label>
-    <textarea id="editDesc" placeholder="Description"></textarea>
+        <img id="editPreview" src="" alt="Preview" style="max-width:100%; margin:10px 0;">
 
-    <label for="editFile">Image</label>
-    <input type="file" id="editFile" accept="image/*">
+        <button onclick="saveEdit()">Save</button>
+      </div>
+    </div>
 
-    <img id="editPreview" src="" alt="Preview" style="max-width:100%; margin:10px 0;">
+    <!-- Customer Edit Modal -->
+    <div id="editCustomerModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeCustomerModal()">&times;</span>
+        <h3>Edit Customer</h3>
 
-    <button onclick="saveEdit()">Save</button>
-  </div>
-</div>
+        <label for="editCustomerName">Name</label>
+        <input id="editCustomerName" placeholder="Name">
 
+        <label for="editCustomerEmail">Email</label>
+        <input id="editCustomerEmail" placeholder="Email">
 
-<!-- Customer Edit Modal -->
-<div id="editCustomerModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeCustomerModal()">&times;</span>
-    <h3>Edit Customer</h3>
+        <button onclick="saveCustomerEdit()">Save</button>
+      </div>
+    </div>
 
-    <label for="editCustomerName">Name</label>
-    <input id="editCustomerName" placeholder="Name">
+    <!-- Order Edit Modal -->
+    <div id="editOrderModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeOrderModal()">&times;</span>
+        <h3>Edit Order</h3>
 
-    <label for="editCustomerEmail">Email</label>
-    <input id="editCustomerEmail" placeholder="Email">
+        <label for="editOrderCustomer">Customer Email</label>
+        <input id="editOrderCustomer" placeholder="Customer Email">
 
-    <button onclick="saveCustomerEdit()">Save</button>
-  </div>
-</div>
+        <label for="editOrderTotal">Total Amount</label>
+        <input id="editOrderTotal" type="number" placeholder="Total">
 
+        <button onclick="saveOrderEdit()">Save</button>
+      </div>
+    </div>
 
-<!-- Order Edit Modal -->
-<div id="editOrderModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeOrderModal()">&times;</span>
-    <h3>Edit Order</h3>
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closePaymentModal()">&times;</span>
+        <h3>Checkout</h3>
 
-    <label for="editOrderCustomer">Customer Email</label>
-    <input id="editOrderCustomer" placeholder="Customer Email">
+        <div id="paymentSummary" style="margin-bottom: 15px;"></div>
 
-    <label for="editOrderTotal">Total Amount</label>
-    <input id="editOrderTotal" type="number" placeholder="Total">
+        <label for="customerMobile">Mobile Number <span style="color:red">*</span></label>
+        <input id="customerMobile" placeholder="Enter your mobile number">
 
-    <button onclick="saveOrderEdit()">Save</button>
-  </div>
-</div>
+        <label for="customerAddress">Address <span style="color:red">*</span></label>
+        <textarea id="customerAddress" placeholder="Enter your address"></textarea>
 
+        <label for="paymentMethod">Payment Method</label>
+        <select id="paymentMethod">
+          <option value="card">Credit Card</option>
+          <option value="mobile">Mobile Payment</option>
+          <option value="cash">Cash on Delivery</option>
+        </select>
 
-<!-- Payment Modal -->
-<!-- Payment Modal -->
-<div id="paymentModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closePaymentModal()">&times;</span>
-    <h3>Checkout</h3>
+        <label for="paymentDetails">Payment Details</label>
+        <input id="paymentDetails" placeholder="Card Number / Mobile Number (optional for Cash)">
 
-    <div id="paymentSummary" style="margin-bottom: 15px;"></div>
+        <button onclick="processPayment()">Pay</button>
+      </div>
+    </div>
 
-    <label for="customerMobile">Mobile Number <span style="color:red">*</span></label>
-    <input id="customerMobile" placeholder="Enter your mobile number">
+    <div id="orderDetailModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeOrderDetailModal()">&times;</span>
+        <h3>Order Details</h3>
+        <div id="orderDetailContent"></div>
+      </div>
+    </div>
 
-    <label for="customerAddress">Address <span style="color:red">*</span></label>
-    <textarea id="customerAddress" placeholder="Enter your address"></textarea>
+    <div id="adminOrderDetailModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeAdminOrderDetailModal()">&times;</span>
+        <h3>Order Details</h3>
+        <div id="adminOrderDetailContent"></div>
+      </div>
+    </div>
+  </main>
 
-    <label for="paymentMethod">Payment Method</label>
-    <select id="paymentMethod">
-      <option value="card">Credit Card</option>
-      <option value="mobile">Mobile Payment</option>
-      <option value="cash">Cash on Delivery</option>
-    </select>
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2023 EasyOnlineMarket. All rights reserved.</p>
+    </div>
+  </footer>
 
-    <label for="paymentDetails">Payment Details</label>
-    <input id="paymentDetails" placeholder="Card Number / Mobile Number (optional for Cash)">
-
-    <button onclick="processPayment()">Pay</button>
-  </div>
-</div>
-
-
-<div id="orderDetailModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeOrderDetailModal()">&times;</span>
-    <h3>Order Details</h3>
-    <div id="orderDetailContent"></div>
-  </div>
-</div>
-
-<div id="adminOrderDetailModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeAdminOrderDetailModal()">&times;</span>
-    <h3>Order Details</h3>
-    <div id="adminOrderDetailContent"></div>
-  </div>
-</div>
-
-
-<!-- Toast Notification -->
-<div id="toast" class="toast"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="js/app.js"></script>
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

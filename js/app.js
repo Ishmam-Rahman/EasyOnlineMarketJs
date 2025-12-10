@@ -14,21 +14,29 @@ let loggedCustomer = null;
 function showPanel(id){
     document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
     document.getElementById(id).style.display='block';
+    // Hide hero section when a panel is shown
+    document.getElementById('hero').style.display = 'none';
 }
 
 // -------------------- ADMIN --------------------
 function adminLogin(){
     if(document.getElementById('adminUser').value==='admin' &&
         document.getElementById('adminPass').value==='1234'){
-        // Hide panel buttons
-        document.getElementById('panelButtons').style.display = 'none';
         showPanel('adminDashboard');
+        showAdminSection('dashboardHome');
         renderAdminProducts();
         renderAdminCustomers();
         renderAdminOrders();
     } else alert("Invalid credentials");
 }
 
+function showAdminSection(id) {
+    document.querySelectorAll('.admin-section').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+
+    document.querySelectorAll('.admin-sidebar a').forEach(a => a.classList.remove('active'));
+    document.querySelector(`.admin-sidebar a[onclick="showAdminSection('${id}')"]`).classList.add('active');
+}
 
 // -------- PRODUCTS --------
 function addProduct(){
@@ -49,6 +57,7 @@ function addProduct(){
         document.getElementById('pdesc').value='';
         fileInput.value='';
         renderAdminProducts();
+        showAdminSection('productsSection');
     };
     reader.readAsDataURL(fileInput.files[0]);
 }
@@ -236,9 +245,6 @@ function customerLogin(){
     loggedCustomer=customers.find(c=>c.email===email&&c.pass===pass);
     if(!loggedCustomer)return alert("Invalid login");
 
-    // Hide panel buttons
-    document.getElementById('panelButtons').style.display = 'none';
-
     cart=[];
     showPanel('customerDashboard');
     renderCustomerProducts();
@@ -421,15 +427,13 @@ function closeAdminOrderDetailModal(){
 function logoutCustomer(){
     loggedCustomer=null;
     cart=[];
-    showPanel('customerPanel');
-
-    // Show panel buttons again
-    document.getElementById('panelButtons').style.display = 'flex';
+    document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
+    document.getElementById('hero').style.display = 'block';
 }
 
 function logoutAdmin(){
-    showPanel('adminLogin'); // go back to admin login
-    document.getElementById('panelButtons').style.display = 'flex'; // show panel buttons again
+    document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
+    document.getElementById('hero').style.display = 'block';
 }
 
 function downloadInvoice(index){
@@ -475,5 +479,10 @@ function downloadInvoice(index){
     doc.save(`Invoice_${o.id}.pdf`);
 }
 
-
-
+// Initial setup
+document.addEventListener('DOMContentLoaded', () => {
+    // Hide all panels initially
+    document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
+    // Ensure hero section is visible
+    document.getElementById('hero').style.display = 'block';
+});
