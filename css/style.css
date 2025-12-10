@@ -105,13 +105,14 @@ button:hover {
     background: #357ac9;
 }
 
-input, textarea {
+input, textarea, select {
     display: block;
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 8px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 .product-grid {
@@ -313,6 +314,85 @@ input, textarea {
     font-size: 22px;
     font-weight: bold;
     cursor: pointer;
+}
+
+/* Payment Modal */
+#paymentModal .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 25px 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    animation: fadeIn 0.3s ease;
+    border-top: 6px solid #4a90e2;
+}
+
+#paymentModal h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #4a90e2;
+}
+
+#paymentModal label {
+    display: block;
+    font-weight: 600;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+#paymentModal label span {
+    color: red;
+}
+
+#paymentModal input,
+#paymentModal textarea,
+#paymentModal select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 12px;
+    font-size: 14px;
+    box-sizing: border-box;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+#paymentModal input:focus,
+#paymentModal textarea:focus,
+#paymentModal select:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 8px rgba(74,144,226,0.3);
+}
+
+#paymentModal button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #4a90e2, #357ac9);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+#paymentModal button:hover {
+    background: linear-gradient(90deg, #357ac9, #2a5da0);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+#paymentModal textarea {
+    min-height: 60px;
+    resize: vertical;
 }
 
 /* Toast Notification */
