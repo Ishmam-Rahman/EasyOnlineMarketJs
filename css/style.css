@@ -169,19 +169,19 @@ input, textarea {
 }
 
 /* Admin Dashboard */
-.admin-header {
+.admin-header, .customer-dashboard-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.admin-layout {
+.admin-layout, .customer-dashboard-layout {
     display: flex;
     gap: 20px;
 }
 
-.admin-sidebar {
+.admin-sidebar, .customer-dashboard-sidebar {
     width: 200px;
     background: #fff;
     padding: 20px;
@@ -189,13 +189,13 @@ input, textarea {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.admin-sidebar nav {
+.admin-sidebar nav, .customer-dashboard-sidebar nav {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.admin-sidebar a {
+.admin-sidebar a, .customer-dashboard-sidebar a {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -206,12 +206,13 @@ input, textarea {
     transition: 0.3s;
 }
 
-.admin-sidebar a:hover, .admin-sidebar a.active {
+.admin-sidebar a:hover, .admin-sidebar a.active,
+.customer-dashboard-sidebar a:hover, .customer-dashboard-sidebar a.active {
     background: #4a90e2;
     color: white;
 }
 
-.admin-content {
+.admin-content, .customer-dashboard-content {
     flex: 1;
     background: #fff;
     padding: 20px;
@@ -254,6 +255,33 @@ input, textarea {
 
 .tab-button i {
     margin-right: 8px;
+}
+
+/* Shop Layout */
+.shop-layout {
+    display: flex;
+    gap: 20px;
+}
+
+.product-list {
+    flex: 1;
+}
+
+.cart-sidebar {
+    width: 300px;
+}
+
+.cart-sidebar h4 {
+    text-align: left;
+}
+
+.cart-sidebar h4 i {
+    margin-right: 8px;
+}
+
+#myOrders .list-item button {
+    padding: 5px 8px;
+    font-size: 11px;
 }
 
 /* Modal styling */

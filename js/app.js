@@ -23,10 +23,10 @@ function adminLogin(){
     if(document.getElementById('adminUser').value==='admin' &&
         document.getElementById('adminPass').value==='1234'){
         showPanel('adminDashboard');
-        showAdminSection('dashboardHome');
         renderAdminProducts();
         renderAdminCustomers();
         renderAdminOrders();
+        showAdminSection('dashboardHome');
     } else alert("Invalid credentials");
 }
 
@@ -259,8 +259,16 @@ function customerLogin(){
     renderCustomerProducts();
     renderCart();
     renderMyOrders();
+    showCustomerSection('customerShopSection');
 }
 
+function showCustomerSection(id) {
+    document.querySelectorAll('.customer-section').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+
+    document.querySelectorAll('.customer-dashboard-sidebar a').forEach(a => a.classList.remove('active'));
+    document.querySelector(`.customer-dashboard-sidebar a[onclick="showCustomerSection('${id}')"]`).classList.add('active');
+}
 
 // -------- CUSTOMER PRODUCTS --------
 function renderCustomerProducts(){
@@ -270,7 +278,7 @@ function renderCustomerProducts(){
         let div=document.createElement('div');
         div.className='product-card';
         div.innerHTML=`<img src="${p.img}" alt="${p.name}"><b>${p.name}</b><br>Price: ${p.price}<p>${p.desc}</p>
-            <button onclick="addToCart(${p.id})">Add</button>`;
+            <button onclick="addToCart(${p.id})">Add to Cart</button>`;
         container.appendChild(div);
     });
 }
@@ -361,6 +369,7 @@ function processPayment(){
 
     // Show success notification
     showToast(`Payment successful via ${method.toUpperCase()}!`);
+    showCustomerSection('customerOrdersSection');
 }
 
 function showToast(message){

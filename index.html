@@ -119,20 +119,37 @@
 
       <!-- Customer Dashboard -->
       <div id="customerDashboard" class="panel fade">
-        <h2>Customer Dashboard</h2>
-        <button onclick="logoutCustomer()">Logout</button>
-
-        <h3>Products</h3>
-        <div id="customerProducts" class="product-grid"></div>
-
-        <div id="cartContainer">
-          <h4>Cart</h4>
-          <div id="cartItems"></div>
-          <button id="checkoutBtn" onclick="checkout()">Checkout</button>
+        <div class="customer-dashboard-header">
+          <h2>Customer Dashboard</h2>
+          <button onclick="logoutCustomer()">Logout</button>
         </div>
-
-        <h3>Your Orders</h3>
-        <div id="myOrders"></div>
+        <div class="customer-dashboard-layout">
+          <aside class="customer-dashboard-sidebar">
+            <nav>
+              <a href="#" onclick="showCustomerSection('customerShopSection')"><i class="fas fa-store"></i> Shop</a>
+              <a href="#" onclick="showCustomerSection('customerOrdersSection')"><i class="fas fa-history"></i> Your Orders</a>
+            </nav>
+          </aside>
+          <main class="customer-dashboard-content">
+            <section id="customerShopSection" class="customer-section">
+              <div class="shop-layout">
+                <div class="product-list">
+                  <h3>Products</h3>
+                  <div id="customerProducts" class="product-grid"></div>
+                </div>
+                <div class="cart-sidebar">
+                  <h4><i class="fas fa-shopping-cart"></i> Cart</h4>
+                  <div id="cartItems"></div>
+                  <button id="checkoutBtn" onclick="checkout()">Checkout</button>
+                </div>
+              </div>
+            </section>
+            <section id="customerOrdersSection" class="customer-section" style="display:none;">
+              <h3>Your Orders</h3>
+              <div id="myOrders"></div>
+            </section>
+          </main>
+        </div>
       </div>
     </div>
 
