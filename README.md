@@ -1,6 +1,6 @@
-# EasyOnlineMarket
+# Amar Market
 
-EasyOnlineMarket is a simple, single-page web application for managing an online store. It provides basic e-commerce functionalities, including product management, customer registration, and order processing.
+Amar Market is a simple, single-page web application for managing an online store. It provides basic e-commerce functionalities, including product management, customer registration, and order processing.
 
 ## Features
 
