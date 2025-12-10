@@ -90,18 +90,31 @@
 
       <!-- Customer Panel -->
       <div id="customerPanel" class="panel fade">
-        <h2>Customer Panel</h2>
+        <div class="customer-auth-container">
+          <div class="auth-tabs">
+            <button class="tab-button active" onclick="showCustomerAuthTab('login')">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            <button class="tab-button" onclick="showCustomerAuthTab('register')">
+              <i class="fas fa-user-plus"></i> Register
+            </button>
+          </div>
 
-        <h3>Register</h3>
-        <input id="regName" placeholder="Name">
-        <input id="regEmail" placeholder="Email">
-        <input id="regPass" type="password" placeholder="Password">
-        <button onclick="registerCustomer()">Register</button>
+          <div id="loginTabContent" class="auth-tab-content">
+            <h2>Customer Login</h2>
+            <input id="logEmail" placeholder="Email">
+            <input id="logPass" type="password" placeholder="Password">
+            <button onclick="customerLogin()">Login</button>
+          </div>
 
-        <h3>Login</h3>
-        <input id="logEmail" placeholder="Email">
-        <input id="logPass" type="password" placeholder="Password">
-        <button onclick="customerLogin()">Login</button>
+          <div id="registerTabContent" class="auth-tab-content" style="display:none;">
+            <h2>Customer Register</h2>
+            <input id="regName" placeholder="Name">
+            <input id="regEmail" placeholder="Email">
+            <input id="regPass" type="password" placeholder="Password">
+            <button onclick="registerCustomer()">Register</button>
+          </div>
+        </div>
       </div>
 
       <!-- Customer Dashboard -->

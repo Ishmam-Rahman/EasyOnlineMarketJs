@@ -224,6 +224,14 @@ function deleteOrder(index){
 }
 
 // -------------------- CUSTOMER PANEL --------------------
+function showCustomerAuthTab(tabName) {
+    document.querySelectorAll('.auth-tab-content').forEach(c => c.style.display = 'none');
+    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+
+    document.getElementById(`${tabName}TabContent`).style.display = 'block';
+    document.querySelector(`.tab-button[onclick="showCustomerAuthTab('${tabName}')"]`).classList.add('active');
+}
+
 function registerCustomer(){
     let name=document.getElementById('regName').value;
     let email=document.getElementById('regEmail').value;
@@ -236,7 +244,8 @@ function registerCustomer(){
     document.getElementById('regEmail').value='';
     document.getElementById('regPass').value='';
 
-    alert("Registered!");
+    alert("Registered! You can now log in.");
+    showCustomerAuthTab('login');
 }
 
 function customerLogin(){
