@@ -220,7 +220,13 @@ function registerCustomer(){
     let email=document.getElementById('regEmail').value;
     let pass=document.getElementById('regPass').value;
     if(!name||!email||!pass)return alert("Enter all fields");
+    if(customers.find(c=>c.email===email)) return alert("Email already registered!");
     customers.push({id:Date.now(),name,email,pass});
+
+    document.getElementById('regName').value='';
+    document.getElementById('regEmail').value='';
+    document.getElementById('regPass').value='';
+
     alert("Registered!");
 }
 
