@@ -21,8 +21,12 @@ let loggedCustomer = null;
 function showPanel(id){
     document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
     document.getElementById(id).style.display='block';
-    // Hide hero section when a panel is shown
     document.getElementById('hero').style.display = 'none';
+}
+
+function showWelcomePage() {
+    document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
+    document.getElementById('hero').style.display = 'block';
 }
 
 // -------------------- ADMIN --------------------
@@ -479,13 +483,11 @@ function closeAdminOrderDetailModal(){
 function logoutCustomer(){
     loggedCustomer=null;
     cart=[];
-    document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
-    document.getElementById('hero').style.display = 'block';
+    showWelcomePage();
 }
 
 function logoutAdmin(){
-    document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
-    document.getElementById('hero').style.display = 'block';
+    showWelcomePage();
 }
 
 function downloadInvoice(index){
@@ -533,8 +535,5 @@ function downloadInvoice(index){
 
 // Initial setup
 document.addEventListener('DOMContentLoaded', () => {
-    // Hide all panels initially
-    document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
-    // Ensure hero section is visible
-    document.getElementById('hero').style.display = 'block';
+    showWelcomePage();
 });

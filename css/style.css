@@ -285,6 +285,14 @@ input, textarea, select {
     font-size: 11px;
 }
 
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #4a90e2;
+    text-decoration: none;
+}
+
 /* Modal styling */
 .modal {
     display: none;
