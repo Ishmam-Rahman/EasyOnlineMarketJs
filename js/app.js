@@ -1,9 +1,16 @@
 // -------------------- DATA --------------------
 let products = [
-    {id:1,name:"Wireless Mouse",price:12.5,img:"images/product1.jpg",desc:"High precision wireless mouse"},
-    {id:2,name:"Mechanical Keyboard",price:45,img:"images/product2.jpg",desc:"RGB mechanical keyboard"},
-    {id:3,name:"USB-C Cable",price:3.5,img:"images/product3.jpg",desc:"Durable USB-C cable"}
+    {id:1, name:"Gaming Mouse - Razer DeathAdder", price:49.99, img:"images/product1.jpg", desc:"High precision gaming mouse with customizable DPI"},
+    {id:2, name:"Mechanical Keyboard - Corsair K70", price:129.99, img:"images/product2.jpg", desc:"RGB mechanical keyboard with Cherry MX switches"},
+    {id:3, name:"Gaming Headset - HyperX Cloud II", price:99.99, img:"images/product3.jpg", desc:"Comfortable headset with 7.1 surround sound"},
+    {id:4, name:"Graphics Card - NVIDIA RTX 4070", price:599.99, img:"images/p4.jpg", desc:"High performance GPU for gaming and content creation"},
+    {id:5, name:"Gaming Monitor - ASUS ROG 27inch 144Hz", price:329.99, img:"images/p5.jpg", desc:"Fast refresh rate monitor with low input lag"},
+    {id:6, name:"SSD - Samsung 980 Pro 1TB", price:149.99, img:"images/p6.jpg", desc:"Ultra-fast NVMe SSD for gaming and storage"},
+    {id:7, name:"PC Case - NZXT H510", price:89.99, img:"images/p7.jpg", desc:"Minimalist mid-tower case with excellent airflow"},
+    {id:8, name:"Gaming Chair - Secretlab Titan", price:399.99, img:"images/p8.jpg", desc:"Ergonomic chair for long gaming sessions"},
+    {id:10, name:"CPU - Intel Core i7-13700K", price:409.99, img:"images/p9.jpg", desc:"High performance processor for gaming and productivity"}
 ];
+
 
 let customers = [];
 let orders = [];
@@ -285,7 +292,12 @@ function renderCustomerProducts(){
 
 function addToCart(pid){
     let p = products.find(x=>x.id===pid);
-    cart.push({...p});
+    let cartItem = cart.find(item => item.id === pid);
+    if (cartItem) {
+        cartItem.quantity++;
+    } else {
+        cart.push({...p, quantity: 1});
+    }
     renderCart();
 }
 
@@ -299,8 +311,14 @@ function renderCart(){
         cart.forEach((p,i)=>{
             let div = document.createElement('div');
             div.className='list-item';
-            div.innerHTML = `${p.name} - $${p.price} 
-                             <button onclick="removeFromCart(${i})">Remove</button>`;
+            div.innerHTML = `
+                <span>${p.name} - $${p.price} x ${p.quantity}</span>
+                <div>
+                    <button onclick="decrementCartItem(${i})">-</button>
+                    <button onclick="incrementCartItem(${i})">+</button>
+                    <button onclick="removeFromCart(${i})">Remove</button>
+                </div>
+            `;
             container.appendChild(div);
         });
     }
@@ -316,17 +334,33 @@ function renderCart(){
     }
 }
 
+function incrementCartItem(index) {
+    cart[index].quantity++;
+    renderCart();
+}
 
-function removeFromCart(index){cart.splice(index,1);renderCart();}
+function decrementCartItem(index) {
+    if (cart[index].quantity > 1) {
+        cart[index].quantity--;
+    } else {
+        cart.splice(index, 1);
+    }
+    renderCart();
+}
+
+function removeFromCart(index){
+    cart.splice(index,1);
+    renderCart();
+}
 
 function checkout(){
     if(cart.length === 0) return alert("Cart is empty");
 
     // Populate order summary
-    let total = cart.reduce((sum,p)=>sum+p.price,0);
+    let total = cart.reduce((sum,p)=>sum + (p.price * p.quantity),0);
     let summaryDiv = document.getElementById('paymentSummary');
     summaryDiv.innerHTML = "<b>Order Summary:</b><br>" +
-        cart.map(p=>`${p.name} - $${p.price}`).join("<br>") +
+        cart.map(p=>`${p.name} - $${p.price} x ${p.quantity}`).join("<br>") +
         `<br><br><b>Total: $${total.toFixed(2)}</b>`;
 
     document.getElementById('paymentDetails').value = '';
@@ -347,7 +381,7 @@ function processPayment(){
     if(!address) return alert("Address is mandatory!");
     if(method !== "cash" && !details) return alert("Payment details are mandatory!");
 
-    let total = cart.reduce((sum,p)=>sum+p.price,0);
+    let total = cart.reduce((sum,p)=>sum + (p.price * p.quantity),0);
 
     orders.push({
         customerName: loggedCustomer.name,
@@ -410,7 +444,7 @@ function viewOrderDetail(index){
                    <b>Address:</b> ${o.address}<br>`;
     if(o.paymentDetails) content += `<b>Payment Details:</b> ${o.paymentDetails}<br>`;
     content += `<b>Total:</b> $${o.total}<br><b>Items:</b><br>`;
-    o.items.forEach(i => content += `- ${i.name} - $${i.price}<br>`);
+    o.items.forEach(i => content += `- ${i.name} - $${i.price} x ${i.quantity}<br>`);
     document.getElementById('orderDetailContent').innerHTML = content;
     document.getElementById('orderDetailModal').style.display = 'block';
 }
@@ -430,7 +464,7 @@ function viewAdminOrderDetail(index){
                    <b>Address:</b> ${o.address}<br>`;
     if(o.paymentDetails) content += `<b>Payment Details:</b> ${o.paymentDetails}<br>`;
     content += `<b>Total:</b> $${o.total}<br><b>Items:</b><br>`;
-    o.items.forEach(i => content += `- ${i.name} - $${i.price}<br>`);
+    o.items.forEach(i => content += `- ${i.name} - $${i.price} x ${i.quantity}<br>`);
     document.getElementById('adminOrderDetailContent').innerHTML = content;
     document.getElementById('adminOrderDetailModal').style.display = 'block';
 }
@@ -487,7 +521,7 @@ function downloadInvoice(index){
     doc.text("Items:", 10, y);
     y += 6;
     o.items.forEach(item => {
-        doc.text(`- ${item.name} - $${item.price}`, 12, y);
+        doc.text(`- ${item.name} - $${item.price} x ${item.quantity}`, 12, y);
         y += 6;
     });
 
