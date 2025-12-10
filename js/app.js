@@ -37,6 +37,7 @@ function adminLogin(){
         renderAdminProducts();
         renderAdminCustomers();
         renderAdminOrders();
+        updateDashboardSummary();
         showAdminSection('dashboardHome');
     } else alert("Invalid credentials");
 }
@@ -47,6 +48,12 @@ function showAdminSection(id) {
 
     document.querySelectorAll('.admin-sidebar a').forEach(a => a.classList.remove('active'));
     document.querySelector(`.admin-sidebar a[onclick="showAdminSection('${id}')"]`).classList.add('active');
+}
+
+function updateDashboardSummary() {
+    document.getElementById('totalProducts').innerText = products.length;
+    document.getElementById('totalCustomers').innerText = customers.length;
+    document.getElementById('totalOrders').innerText = orders.length;
 }
 
 // -------- PRODUCTS --------
@@ -68,6 +75,7 @@ function addProduct(){
         document.getElementById('pdesc').value='';
         fileInput.value='';
         renderAdminProducts();
+        updateDashboardSummary();
         showAdminSection('productsSection');
     };
     reader.readAsDataURL(fileInput.files[0]);
@@ -95,6 +103,7 @@ function deleteProduct(index){
     if(confirm("Delete this product?")){
         products.splice(index,1);
         renderAdminProducts();
+        updateDashboardSummary();
     }
 }
 
@@ -183,6 +192,7 @@ function deleteCustomer(index){
         orders = orders.filter(o=>o.customer!==c.email);
         renderAdminCustomers();
         renderAdminOrders();
+        updateDashboardSummary();
     }
 }
 
@@ -231,6 +241,7 @@ function deleteOrder(index){
     if(confirm("Delete this order?")){
         orders.splice(index,1);
         renderAdminOrders();
+        updateDashboardSummary();
     }
 }
 
@@ -257,6 +268,7 @@ function registerCustomer(){
 
     alert("Registered! You can now log in.");
     showCustomerAuthTab('login');
+    updateDashboardSummary();
 }
 
 function customerLogin(){
@@ -408,6 +420,7 @@ function processPayment(){
     // Show success notification
     showToast(`Payment successful via ${method.toUpperCase()}!`);
     showCustomerSection('customerOrdersSection');
+    updateDashboardSummary();
 }
 
 function showToast(message){

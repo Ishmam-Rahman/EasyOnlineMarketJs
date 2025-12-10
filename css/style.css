@@ -43,10 +43,6 @@ h1, h2, h3 {
     margin-right: 8px;
 }
 
-.main-nav button {
-    margin-left: 10px;
-}
-
 /* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, #4a90e2, #357ac9);
@@ -82,13 +78,6 @@ h1, h2, h3 {
 /* Main Content */
 main {
     padding-bottom: 80px; /* Space for footer */
-}
-
-.nav {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
 }
 
 button {
@@ -219,6 +208,37 @@ input, textarea, select {
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.card i {
+    font-size: 36px;
+    margin-right: 20px;
+    color: #4a90e2;
+}
+
+.card-content h4 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.card-content p {
+    margin: 0;
+    color: #666;
 }
 
 /* Customer Auth Panel */
